@@ -37,7 +37,7 @@
                                     <segue destination="rfm-BM-Fmi" kind="show" animates="NO" id="LRx-Rb-TIP"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cyy-v4-Y0v" userLabel="Head">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cyy-v4-Y0v" userLabel="foot">
                                 <rect key="frame" x="0.0" y="587" width="375" height="80"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="RQs-xw-gHJ">
@@ -126,6 +126,7 @@
                         <outlet property="btnBack" destination="ZdJ-Sk-mzR" id="UGe-Le-OUs"/>
                         <outlet property="btnNext" destination="N90-C6-9vv" id="xp7-6S-7gK"/>
                         <outlet property="btnPlayStop" destination="81m-vY-rxG" id="rzI-fy-fDf"/>
+                        <outlet property="footArea" destination="Cyy-v4-Y0v" id="RHx-Qy-hgh"/>
                         <outlet property="slideArea" destination="2Xq-9R-ffZ" id="vfC-oK-aMC"/>
                     </connections>
                 </viewController>
