@@ -26,14 +26,9 @@ class SlideshowController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /** 初期処理 */
-        slideshow!.doInit(slideArea)
-        
-        /** 再生停止ボタン */
-        playFlag = slideshow!.getPlayFlag()
-        
-        /** view */
-        viewPlayStop(playFlag)
+        /** viewセット */
+        viewImage(slideshow!.getFileName())
+        viewPlayStop()
         viewBackNext()
     }
 
@@ -51,10 +46,10 @@ class SlideshowController: UIViewController {
         
         /** 再生停止処理 */
         slideshow!.doPlayStop(slideArea)
-        
+       
         /** 再生停止ボタン */
         playFlag = slideshow!.getPlayFlag()
-        viewPlayStop(playFlag)
+        viewPlayStop()
     }
     
     /**
@@ -63,7 +58,10 @@ class SlideshowController: UIViewController {
     @IBAction func actionNext(_ sender: Any) {
         
         /** 進む処理 */
-        slideshow!.doNext(slideArea)
+        slideshow!.doNext()
+        
+        /** viewセット */
+        viewImage(slideshow!.getFileName())
     }
     
     /**
@@ -72,7 +70,10 @@ class SlideshowController: UIViewController {
     @IBAction func actionBack(_ sender: Any) {
         
         /** 戻る処理 */
-        slideshow!.doBack(slideArea)
+        slideshow!.doBack()
+        
+        /** viewセット */
+        viewImage(slideshow!.getFileName())
     }
     
     /**
@@ -82,20 +83,23 @@ class SlideshowController: UIViewController {
         
         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "pict")
-        
+
         /** delegateにファイル名セット */
         appDelegate.pictName = slideshow!.getFileName()
         present(nextVC!, animated:false, completion: nil)
+
+        /** 停止処理 */
+        slideshow!.doStop()
+        
+        /** 再生停止ボタン */
+        playFlag = slideshow!.getPlayFlag()
+        viewPlayStop()
     }
     
     /**
      * 結果画面遷移前処理
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let pictCtrl: PictController = segue.destination as! PictController
-        
-        /** 値セット */
-        pictCtrl.pictName = slideshow!.getFileName()
     }
     
     /**
@@ -105,9 +109,17 @@ class SlideshowController: UIViewController {
     }
     
     /**
+     * 画像view
+     */
+    func viewImage(_ fileName: String) {
+        
+        slideArea.image = UIImage(named: fileName)
+    }
+    
+    /**
      * 再生停止ボタンview
      */
-    func viewPlayStop(_ playFlag: Int) {
+    func viewPlayStop() {
     
         /** 表示変更 */
         if(playFlag == 0){

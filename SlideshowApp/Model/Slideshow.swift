@@ -27,25 +27,13 @@ class Slideshow{
     /** タイマー用の変数 */
     var timer: Timer!
 
-    /**
-     * イニシャライザ
-     */
     init(){
         /** 初期値：停止 */
         self.playFlag = 0
         self.maxPictCnt = self.imgArray.count
-        
+
         /** タイマーリセット */
         self.resetTimer()
-    }
-    
-    /**
-     * 初期処理
-     */
-    func doInit(_ slideArea: UIImageView!){
-        
-        /** セット*/
-        slideArea.image = UIImage(named: imgArray[minPictCnt])
     }
     
     /**
@@ -53,60 +41,64 @@ class Slideshow{
      */
     func doPlayStop(_ slideArea: UIImageView!){
         
-        /** リセット */
-        resetTimer()
-        
-        /** 停止→再生 */
         if playFlag == 0 {
 
             /** 再生処理 */
-            stretTimer(slideArea)
-            
-            /** フラグ切り替え */
-            playFlag = -1
+            doPlay(slideArea)
         }
-        
-        /** 再生→停止 */
         else {
-
-            /** フラグ切り替え */
-            playFlag = 0
+            /** 再生処理 */
+            doStop()
         }
     }
     
     /**
+     * 再生処理
+     */
+    func doPlay(_ slideArea: UIImageView!){
+        
+        /** リセット */
+        resetTimer()
+        
+        /** タイマー作成、始動 : 5秒ごとに呼び出す*/
+        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(timerCount(_:)), userInfo: ["slideArea" :slideArea], repeats: true)
+        
+        /** フラグ切り替え */
+        playFlag = -1
+    }
+    
+    /**
+     * 停止処理
+     */
+    func doStop(){
+        
+        /** リセット */
+        resetTimer()
+        
+        /** フラグ切り替え */
+        playFlag = 0
+    }
+    
+    
+    /**
      * 進む処理
      */
-    func doNext(_ slideArea: UIImageView!){
+    func doNext(){
         
         /** カウントアップ */
         countUp()
-        
-        /** 画像切り替え */
-        slideArea.image = UIImage(named: imgArray[self.pictCnt])
     }
     
     /**
      * 戻る処理
      */
-    func doBack(_ slideArea: UIImageView!){
+    func doBack(){
         
         /** カウントダウン */
         countDown()
-        
-        /** 画像切り替え */
-        slideArea.image = UIImage(named: imgArray[self.pictCnt])
     }
     
     
-    /**static
-     * 再生処理
-     */
-    private func stretTimer(_ slideArea: UIImageView!) {
-        
-        /** タイマー作成、始動 : 5秒ごとに呼び出す*/
-        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(timerCount(_:)), userInfo: ["slideArea" :slideArea], repeats: true)
-    }
     
     /**
      * カウント処理
@@ -127,7 +119,7 @@ class Slideshow{
     /**
      * カウントアップ
      */
-    private func countUp() {
+    func countUp() {
         
         /** 1加算 */
         if pictCnt < (maxPictCnt - 1) {
@@ -155,7 +147,7 @@ class Slideshow{
     /**
      * リセット処理
      */
-    private func resetTimer() {
+    func resetTimer() {
         
         /** タイマー破棄 */
         if self.timer != nil{
@@ -172,9 +164,10 @@ class Slideshow{
     }
     
     /**
-     * 表示ファイル名取得
+     * ファイル名取得
      */
     func getFileName() -> String{
         return self.imgArray[self.pictCnt]
     }
+    
 }

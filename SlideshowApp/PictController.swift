@@ -39,8 +39,7 @@ class PictController: UIViewController{
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        /** ファイル名取得
-         */
+        /** ファイル名取得 */
         self.pictName = appDelegate.pictName
         
         /** 画像セット */
